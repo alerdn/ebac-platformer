@@ -122,7 +122,6 @@ public class Player : MonoBehaviour
     {
         if (_inAir)
         {
-            Debug.Log(myRigidbody2D.velocity.y);
             HandleAnimationJump();
         }
     }
