@@ -15,9 +15,9 @@ public class Player : MonoBehaviour
     public float forceJump = 25;
 
     [Header("Animation setup")]
-    public float jumpScaleY = 1.5f;
-    public float jumpScaleX = .7f;
-    public float animationDuration = 0.3f;
+    public SOFloat soJumpScaleY;// = 1.5f;
+    public SOFloat soJumpScaleX;// = .7f;
+    public SOFloat soAnimationDuration;// = 0.3f;
 
     [Header("Animation player")]
     public string boolRun = "Run";
@@ -118,8 +118,8 @@ public class Player : MonoBehaviour
 
     private void HandleScaleJump()
     {
-        myRigidbody2D.transform.DOScaleY(jumpScaleY, animationDuration).SetLoops(2, LoopType.Yoyo);
-        myRigidbody2D.transform.DOScaleX(jumpScaleX, animationDuration).SetLoops(2, LoopType.Yoyo);
+        myRigidbody2D.transform.DOScaleY(soJumpScaleY.value, soAnimationDuration.value).SetLoops(2, LoopType.Yoyo);
+        myRigidbody2D.transform.DOScaleX(soJumpScaleX.value, soAnimationDuration.value).SetLoops(2, LoopType.Yoyo);
     }
 
     private void HandleAnimationJump()

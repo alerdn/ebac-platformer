@@ -7,7 +7,7 @@ public class ItemManager : Singleton<ItemManager>
 {
     public Action<int> OnAddCoins;
 
-    public int coins;
+    public SOInt coins;
 
     private void Start()
     {
@@ -16,12 +16,12 @@ public class ItemManager : Singleton<ItemManager>
 
     private void Reset()
     {
-        coins = 0;
+        coins.value = 0;
     }
 
     public void AddCoins(int amount = 1)
     {
-        coins += amount;
-        OnAddCoins?.Invoke(coins);
+        coins.value += amount;
+        OnAddCoins?.Invoke(coins.value);
     }
 }

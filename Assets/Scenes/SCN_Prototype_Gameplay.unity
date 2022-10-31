@@ -735,7 +735,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e069c54d4a34ea4a9591d2376d7dc6f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  coins: 0
+  coins: {fileID: 11400000, guid: 2468ab8d384ce1b45abd1896ae57f05c, type: 2}
 --- !u!4 &273096548
 Transform:
   m_ObjectHideFlags: 0
@@ -1177,9 +1177,9 @@ MonoBehaviour:
   speed: 10
   speedRun: 18
   forceJump: 24
-  jumpScaleY: 1.1
-  jumpScaleX: 0.7
-  animationDuration: 0.2
+  soJumpScaleY: {fileID: 11400000, guid: 66069b8bc347ca943a878c63f8d0dbe6, type: 2}
+  soJumpScaleX: {fileID: 11400000, guid: 159ea6b4774849e4b9e6ecd98928c625, type: 2}
+  soAnimationDuration: {fileID: 11400000, guid: b8c549c692a91e84895eb10656041d60, type: 2}
   boolRun: Run
   animator: {fileID: 231130043}
   playerSwipeDuration: 0.1
@@ -2866,6 +2866,50 @@ SpriteRenderer:
   m_CorrespondingSourceObject: {fileID: 1181252494661186000, guid: 00afc9fb4087652419d090da0b825d97, type: 3}
   m_PrefabInstance: {fileID: 231130041}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &948045312
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 948045313}
+  - component: {fileID: 948045314}
+  m_Layer: 0
+  m_Name: UI Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &948045313
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 948045312}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1017100245}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &948045314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 948045312}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f319ce197dcffa542a149088715f38f1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  coinsCounter: {fileID: 1311705849}
 --- !u!1 &955202423
 GameObject:
   m_ObjectHideFlags: 0
@@ -3109,7 +3153,6 @@ GameObject:
   - component: {fileID: 976318128}
   - component: {fileID: 976318127}
   - component: {fileID: 976318126}
-  - component: {fileID: 976318130}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -3199,19 +3242,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
---- !u!114 &976318130
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 976318125}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f319ce197dcffa542a149088715f38f1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  coinsCounter: {fileID: 1311705849}
 --- !u!1 &979215109
 GameObject:
   m_ObjectHideFlags: 0
@@ -3466,6 +3496,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 273096548}
+  - {fileID: 948045313}
   m_Father: {fileID: 428355211}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3830,6 +3861,7 @@ GameObject:
   - component: {fileID: 1311705848}
   - component: {fileID: 1311705850}
   - component: {fileID: 1311705849}
+  - component: {fileID: 1311705851}
   m_Layer: 5
   m_Name: Text (TMP)
   m_TagString: Untagged
@@ -3953,6 +3985,20 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1311705847}
   m_CullTransparentMesh: 1
+--- !u!114 &1311705851
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1311705847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a3a4782a004a2ee4aa00e48d7d39332c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  soInt: {fileID: 11400000, guid: 2468ab8d384ce1b45abd1896ae57f05c, type: 2}
+  uiTextValue: {fileID: 1311705849}
 --- !u!1 &1322159451
 GameObject:
   m_ObjectHideFlags: 0
