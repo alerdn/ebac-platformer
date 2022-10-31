@@ -5,9 +5,26 @@ using UnityEngine;
 public class EnemyBase : MonoBehaviour
 {
     public int damage = 10;
-
+    public HealthBase healthBase;
     public Animator animator;
     public string triggerAttack = "Attack";
+    public string triggerKill = "Death";
+    public float timeToDestroy = 1f;
+
+    private void Awake()
+    {
+        if (healthBase != null)
+        {
+            healthBase.OnKill += OnEnemyKill;
+        }
+    }
+
+    private void OnEnemyKill()
+    {
+        healthBase.OnKill -= OnEnemyKill;
+        PlayKillAnimation();
+        Destroy(gameObject, timeToDestroy);
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -16,12 +33,24 @@ public class EnemyBase : MonoBehaviour
         if (health != null)
         {
             health.Damage(damage);
-            PlayAttachAnimation();
+            PlayAttackAnimation();
         }
     }
 
-    private void PlayAttachAnimation()
+    private void PlayAttackAnimation()
     {
         animator.SetTrigger(triggerAttack);
+    }
+    
+    private void PlayKillAnimation()
+    {
+        animator.SetTrigger(triggerKill);
+    }
+
+    public void Damage(int amount)
+    {
+        healthBase.Damage(amount);
+
+
     }
 }
