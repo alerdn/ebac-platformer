@@ -1,9 +1,12 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class ItemManager : Singleton<ItemManager>
 {
+    public Action<int> OnAddCoins;
+
     public int coins;
 
     private void Start()
@@ -19,5 +22,6 @@ public class ItemManager : Singleton<ItemManager>
     public void AddCoins(int amount = 1)
     {
         coins += amount;
+        OnAddCoins?.Invoke(coins);
     }
 }
