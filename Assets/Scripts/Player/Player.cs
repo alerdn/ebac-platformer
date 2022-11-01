@@ -121,7 +121,8 @@ public class Player : MonoBehaviour
         else if (myRigidbody2D.velocity.y < 0)
         {
             _currentAnimator.SetTrigger("JumpDown");
-        }else
+        }
+        else
         {
             _currentAnimator.SetTrigger("JumpLand");
             _inAir = false;

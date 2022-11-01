@@ -5,9 +5,8 @@ using UnityEngine;
 
 public class ItemManager : Singleton<ItemManager>
 {
-    public Action<int> OnAddCoins;
-
     public SOInt coins;
+    public SOInt planets;
 
     private void Start()
     {
@@ -22,6 +21,10 @@ public class ItemManager : Singleton<ItemManager>
     public void AddCoins(int amount = 1)
     {
         coins.value += amount;
-        OnAddCoins?.Invoke(coins.value);
+    }
+
+    public void AddPlanets(int amount = 1)
+    {
+        planets.value += amount;
     }
 }
