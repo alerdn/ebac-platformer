@@ -15,7 +15,10 @@ public class Player : MonoBehaviour
     public Collider2D collider2d;
     public float distToGround;
     public float spaceToGround = .05f;
-    public ParticleSystem jumpVFX;
+
+    [Header("VFXs")]
+    public ParticleSystem walkVFX;
+    public ParticleSystem runVFX;
 
 
     private Animator _currentAnimator;
@@ -48,7 +51,7 @@ public class Player : MonoBehaviour
 
     private bool IsGrounded()
     {
-        Debug.DrawRay(transform.position, Vector2.down, Color.magenta, distToGround + spaceToGround);
+        // Debug.DrawRay(transform.position, Vector2.down, Color.magenta, distToGround + spaceToGround);
         return Physics2D.Raycast(transform.position, Vector2.down, distToGround + spaceToGround);
     }
 
@@ -109,6 +112,27 @@ public class Player : MonoBehaviour
         {
             myRigidbody2D.velocity -= soPlayerSetup.friction;
         }
+
+
+        /* Executar o VFX apenas se estiver no chão */
+        if (IsGrounded())
+        {
+            if (_currentSpeed == soPlayerSetup.speedRun)
+            {
+                walkVFX.Stop();
+                runVFX.Play();
+            }
+            else
+            {
+                walkVFX.Play();
+                runVFX.Stop();
+            }
+        }
+        else
+        {
+            walkVFX.Stop();
+            runVFX.Stop();
+        }
     }
 
     private void HandleJump()
@@ -118,7 +142,7 @@ public class Player : MonoBehaviour
             _inAir = true;
             myRigidbody2D.velocity = Vector2.up * soPlayerSetup.forceJump;
 
-            // Mata as animações em andamento
+            /* Mata as animações em andamento */
             DOTween.Kill(myRigidbody2D.transform);
 
             PlayJumpVFX();
@@ -158,6 +182,6 @@ public class Player : MonoBehaviour
 
     private void PlayJumpVFX()
     {
-        if (jumpVFX != null) jumpVFX.Play();
+        VFXManager.Instance.PlayVFXType(VFXManager.VFXType.JUMP, transform.position);
     }
 }
