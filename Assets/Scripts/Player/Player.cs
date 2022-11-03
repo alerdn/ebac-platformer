@@ -11,6 +11,13 @@ public class Player : MonoBehaviour
     [Header("SO Player setup")]
     public SOPlayerSetup soPlayerSetup;
 
+    [Header("Jump Collision Check")]
+    public Collider2D collider2d;
+    public float distToGround;
+    public float spaceToGround = .05f;
+    public ParticleSystem jumpVFX;
+
+
     private Animator _currentAnimator;
     private float _currentSpeed;
     private bool _inAir;
@@ -23,13 +30,26 @@ public class Player : MonoBehaviour
         }
 
         _currentAnimator = Instantiate(soPlayerSetup.player, transform);
+
+        if (collider2d != null)
+        {
+            distToGround = collider2d.bounds.extents.y;
+        }
     }
 
     private void Update()
     {
+        IsGrounded();
         HandleJump();
         HandleMoviment();
         HandleInAir();
+    }
+
+
+    private bool IsGrounded()
+    {
+        Debug.DrawRay(transform.position, Vector2.down, Color.magenta, distToGround + spaceToGround);
+        return Physics2D.Raycast(transform.position, Vector2.down, distToGround + spaceToGround);
     }
 
     public void DestroyMe()
@@ -93,16 +113,15 @@ public class Player : MonoBehaviour
 
     private void HandleJump()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) && IsGrounded())
         {
             _inAir = true;
             myRigidbody2D.velocity = Vector2.up * soPlayerSetup.forceJump;
-            // myRigidbody2D.transform.localScale = Vector2.one;
 
             // Mata as animações em andamento
             DOTween.Kill(myRigidbody2D.transform);
 
-            // HandleScaleJump();
+            PlayJumpVFX();
         }
     }
 
@@ -118,7 +137,7 @@ public class Player : MonoBehaviour
         {
             _currentAnimator.SetTrigger("JumpUp");
         }
-        else if (myRigidbody2D.velocity.y < 0)
+        else if (myRigidbody2D.velocity.y < 0 && !IsGrounded())
         {
             _currentAnimator.SetTrigger("JumpDown");
         }
@@ -135,5 +154,10 @@ public class Player : MonoBehaviour
         {
             HandleAnimationJump();
         }
+    }
+
+    private void PlayJumpVFX()
+    {
+        if (jumpVFX != null) jumpVFX.Play();
     }
 }
