@@ -7,9 +7,19 @@ public class GunBase : MonoBehaviour
     public ProjectileBase prefabProjectileBase;
     public Transform positionToShoot;
     public float timeBetweenShoot = .3f;
-    public Transform playserSideReference;
+    public Transform playerSideReference;
 
     private Coroutine _currentCoroutine;
+    private Player _player;
+
+    private void Start()
+    {
+        _player = GetComponentInParent<Player>();
+        if (_player != null)
+        {
+            playerSideReference = _player.transform;
+        }
+    }
 
     private void Update()
     {
@@ -35,6 +45,6 @@ public class GunBase : MonoBehaviour
     {
         var projectile = Instantiate(prefabProjectileBase);
         projectile.transform.position = positionToShoot.position;
-        projectile.side = playserSideReference.localScale.x;
+        projectile.side = playerSideReference.localScale.x;
     }
 }
