@@ -12,9 +12,11 @@ public class ItemCollectableBase : MonoBehaviour
     [Header("Sounds")]
     public AudioSource audioSource;
 
+    private Collider2D _collider;
+
     private void Awake()
     {
-        // if (mParticleSystem != null) mParticleSystem.transform.SetParent(null);
+        _collider = GetComponent<Collider2D>();
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -28,6 +30,7 @@ public class ItemCollectableBase : MonoBehaviour
     protected virtual void Collect()
     {
         graphicItem.SetActive(false);
+        _collider.enabled = false;
         Invoke(nameof(HideObject), timeToHide);
         OnCollect();
     }

@@ -15,6 +15,7 @@ public class ItemManager : Singleton<ItemManager>
 
     private void Reset()
     {
+        planets.value = 0;
         coins.value = 0;
     }
 

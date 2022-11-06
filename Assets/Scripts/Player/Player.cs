@@ -2,9 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using DG.Tweening;
+using System;
 
 public class Player : MonoBehaviour
 {
+    public event Action OnPlayerDead;
+
     public Rigidbody2D myRigidbody2D;
     public HealthBase healthBase;
 
@@ -20,6 +23,8 @@ public class Player : MonoBehaviour
     public ParticleSystem walkVFX;
     public ParticleSystem runVFX;
 
+    [Header("Audio")]
+    public AudioSource audioJump;
 
     private Animator _currentAnimator;
     private float _currentSpeed;
@@ -51,7 +56,6 @@ public class Player : MonoBehaviour
 
     private bool IsGrounded()
     {
-        // Debug.DrawRay(transform.position, Vector2.down, Color.magenta, distToGround + spaceToGround);
         return Physics2D.Raycast(transform.position, Vector2.down, distToGround + spaceToGround);
     }
 
@@ -62,6 +66,7 @@ public class Player : MonoBehaviour
 
     private void OnPlayerKill()
     {
+        OnPlayerDead?.Invoke();
         healthBase.OnKill -= OnPlayerKill;
         _currentAnimator.SetTrigger(soPlayerSetup.triggerDeath);
     }
@@ -81,7 +86,6 @@ public class Player : MonoBehaviour
 
         if (Input.GetKey(KeyCode.LeftArrow))
         {
-            // BAD CODE: myRigidbody2D.MovePosition(myRigidbody2D.position - velocity * Time.deltaTime);
             myRigidbody2D.velocity = new Vector2(-_currentSpeed, myRigidbody2D.velocity.y);
             if (myRigidbody2D.transform.localScale.x != -1)
             {
@@ -91,7 +95,6 @@ public class Player : MonoBehaviour
         }
         else if (Input.GetKey(KeyCode.RightArrow))
         {
-            // BAD CODE: myRigidbody2D.MovePosition(myRigidbody2D.position + velocity * Time.deltaTime);
             myRigidbody2D.velocity = new Vector2(_currentSpeed, myRigidbody2D.velocity.y);
             if (myRigidbody2D.transform.localScale.x != 1)
             {
@@ -112,7 +115,6 @@ public class Player : MonoBehaviour
         {
             myRigidbody2D.velocity -= soPlayerSetup.friction;
         }
-
 
         /* Executar o VFX apenas se estiver no chão */
         if (IsGrounded())
@@ -146,13 +148,8 @@ public class Player : MonoBehaviour
             DOTween.Kill(myRigidbody2D.transform);
 
             PlayJumpVFX();
+            audioJump?.Play();
         }
-    }
-
-    private void HandleScaleJump()
-    {
-        myRigidbody2D.transform.DOScaleY(soPlayerSetup.soJumpScaleY.value, soPlayerSetup.soAnimationDuration.value).SetLoops(2, LoopType.Yoyo).SetEase(soPlayerSetup.ease);
-        myRigidbody2D.transform.DOScaleX(soPlayerSetup.soJumpScaleX.value, soPlayerSetup.soAnimationDuration.value).SetLoops(2, LoopType.Yoyo).SetEase(soPlayerSetup.ease);
     }
 
     private void HandleAnimationJump()

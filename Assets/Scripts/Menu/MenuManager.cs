@@ -8,6 +8,7 @@ public class MenuManager : MonoBehaviour
     public List<GameObject> buttons;
 
     [Header("Animation")]
+    public float startDelay = 1f;
     public float duration = .5f;
     public float delay = .1f;
     public Ease ease = Ease.OutBack;
@@ -15,7 +16,12 @@ public class MenuManager : MonoBehaviour
     private void Awake()
     {
         HideButtons();
-        ShowButtons();
+        Invoke(nameof(ShowButtons), startDelay);
+    }
+
+    private void Start()
+    {
+        PauseManager.Instance.Unpause();
     }
 
     private void HideButtons()
